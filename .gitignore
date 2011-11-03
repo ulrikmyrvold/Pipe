@@ -1,0 +1,26 @@
+#
+#local user and generated files
+#
+
+*.user
+*.suo
+*.eml
+*.log
+*.log.*
+_ReSharper*/
+_UpgradeReport_Files/
+
+
+#
+# bin-directories
+#
+bin/
+
+#
+# obj-directories
+#
+obj/
+
+#
+#testresult files
+#
