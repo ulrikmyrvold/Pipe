@@ -20,6 +20,7 @@ namespace WebTest
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Login")]
+    [NUnit.Framework.CategoryAttribute("changes_database")]
     public partial class LoginFeature
     {
         
@@ -33,7 +34,8 @@ namespace WebTest
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Login", "In order to all features of the applicattion\r\nAs a user\r\nI want to login to the a" +
-                    "pplication", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "pplication", ProgrammingLanguage.CSharp, new string[] {
+                        "changes_database"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -67,25 +69,23 @@ namespace WebTest
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create new account")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
         public virtual void CreateNewAccount()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create new account", new string[] {
-                        "mytag"});
-#line 7
-this.ScenarioSetup(scenarioInfo);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create new account", ((string[])(null)));
 #line 8
- testRunner.Given("I have navigated to the account registration page");
+this.ScenarioSetup(scenarioInfo);
 #line 9
- testRunner.And("I have entered as user name: User");
+ testRunner.Given("I have navigated to the account registration page");
 #line 10
- testRunner.And("I have entered as email address: mail@user.com");
+ testRunner.Then("I should be able to enter my user name");
 #line 11
- testRunner.And("I have entered as password: pw4User");
+ testRunner.And("I should be able to enter my email address");
 #line 12
- testRunner.When("I press register");
+ testRunner.And("I should be able to enter my password");
 #line 13
- testRunner.Then("I should see on the home page the message: Welcome User!");
+ testRunner.And("I should be able to confirm my passowrd");
+#line 14
+ testRunner.And("i should be able to click the register button");
 #line hidden
             this.ScenarioCleanup();
         }

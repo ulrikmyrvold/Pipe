@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using FluentAssertions;
+using TechTalk.SpecFlow;
 using WebTest.PageObjects;
 
 namespace WebTest.StepDefinitions
@@ -12,29 +13,35 @@ namespace WebTest.StepDefinitions
             Browser.Instance.Page<LoginPage>().Show();
         }
 
-        [Given(@"I have entered as user name: (.*)")]
-        public void GivenIHaveEnteredAsUserNameUser(string userName)
+        [Then(@"I should be able to enter my user name")]
+        public void ThenIShouldBeAbleToEnterMyUserName()
         {
-            Browser.Instance.Page<LoginPage>().UserNameField.Value = userName;
+            Browser.Instance.Page<LoginPage>().UserNameField.Exists.Should().BeTrue();
         }
 
-        [Given(@"I have entered as email address: (.*)")]
-        public void GivenIHaveEnteredAsEmailAddress(string emailAddress)
+        [Then(@"I should be able to enter my email address")]
+        public void ThenIShouldBeAbleToEnterMyEmailAddress()
         {
-            Browser.Instance.Page<LoginPage>().EmailField.Value = emailAddress;
+            Browser.Instance.Page<LoginPage>().EmailField.Exists.Should().BeTrue();
         }
 
-        [Given(@"I have entered as password: (.*)")]
-        public void GivenIHaveEnteredAsPassword(string passowrd)
+        [Then(@"I should be able to enter my password")]
+        public void ThenIShouldBeAbleToEnterMyPassword()
         {
-            Browser.Instance.Page<LoginPage>().PasswordField.Value = passowrd;
-            Browser.Instance.Page<LoginPage>().PasswordConfirmationField.Value = passowrd;
+            Browser.Instance.Page<LoginPage>().PasswordField.Exists.Should().BeTrue();
         }
 
-        [When(@"I press register")]
-        public void WhenIPressRegister()
+        [Then(@"I should be able to confirm my passowrd")]
+        public void ThenIShouldBeAbleToConfirmMyPassowrd()
         {
-            Browser.Instance.Page<LoginPage>().RegisterButton.Click();
+            Browser.Instance.Page<LoginPage>().PasswordConfirmationField.Exists.Should().BeTrue();
         }
+
+        [Then(@"i should be able to click the register button")]
+        public void ThenIShouldBeAbleToClickTheRegisterButton()
+        {
+            Browser.Instance.Page<LoginPage>().RegisterButton.Exists.Should().BeTrue();
+        }
+
     }
 }

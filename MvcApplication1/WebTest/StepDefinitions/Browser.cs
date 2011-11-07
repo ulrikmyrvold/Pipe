@@ -8,7 +8,7 @@ namespace WebTest.StepDefinitions
     {
         private static IE _browser;
 
-        public static WatiN.Core.Browser Instance
+        public static IE Instance
         {
             get
             {
@@ -44,6 +44,20 @@ namespace WebTest.StepDefinitions
         public static string RootUrl
         {
             get { return ConfigurationManager.AppSettings["siteUrl"]; }
+        }
+
+        public static bool IsRunning()
+        {
+            return _browser != null;
+        }
+
+        public static void Close()
+        {
+            if (Instance == null) return;
+
+            Instance.ForceClose();
+
+            _browser = null;
         }
     }
 }
