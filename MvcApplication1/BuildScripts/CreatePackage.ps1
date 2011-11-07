@@ -4,7 +4,7 @@
 
 #nuget pack MvcApplication1.csproj
 
-$workingDirectory = "..\MvcApplication1"
+$workingDirectory = "..\package"
 $NugetPushUrl = "http://localhost:105/"
 $NugetApiKey = "SecretKey"
 
@@ -23,7 +23,7 @@ function CleanDirectory(){
 
 function createPackage(){
 	CleanDirectory
-	$NugetArgs.ArgumentList = "pack", "MvcApplication1.csproj"
+	$NugetArgs.ArgumentList = "pack", "..\Pipe.Web\Pipe.Web.csproj"
 	$nuget = Start-Process @NugetArgs
 	Write-Host $nuget.ExitCode
  }
