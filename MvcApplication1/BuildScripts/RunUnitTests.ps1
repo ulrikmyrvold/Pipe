@@ -1,15 +1,11 @@
-﻿#Author: ulrik myrvold
-#Date: 10/5/2011 8:35:04 AM
-#Script: RunUnitTests
-
-function RunTests()
+﻿function RunTests()
 {
-	$WorkingDirectory = "E:\PoC\JSTestDriver\VS\MvcApplication1\Tests\bin\Debug"
-	$TestrunOutput = "E:\PoC\JSTestDriver\VS\UnitTestRun.xml"
-	$TestrunLog = "E:\PoC\JSTestDriver\UnitTestRun.log"
+	$WorkingDirectory = "..\Tests\bin\Debug"
+	$TestrunOutput = "..\UnitTestRun.xml"
+	$TestrunLog = "..\..\UnitTestRun.log"
 	
 	$TestRunArgs = @{
-		FilePath = "C:\Program Files (x86)\NUnit 2.5.8\bin\net-2.0\nunit-console.exe"
+		FilePath = ".\TestRunner\nunit-console.exe"
 		WorkingDirectory = $WorkingDirectory
 	 	ArgumentList = "Tests.dll", "/xml " + $TestrunOutput
 		RedirectStandardOutput = $TestrunLog 
@@ -41,13 +37,13 @@ function TweakNunitConfig(){
 	
 	#$configfile = "E:\PoC\JSTestDriver\VS\nunit-console.exe.copy.config"
 
-	$configfile = "C:\Program Files (x86)\NUnit 2.5.8\bin\net-2.0\nunit-console.exe.config"
+	$configfile = Get-Item -Path ".\TestRunner\nunit-console.exe.config"
 
-	[xml]$xml = Get-Content $configfile
+	[xml]$xml = Get-Content $configfile.FullName
 	$startup = $xml.get_DocumentElement().startup
 	if($startup -eq $null){
 		AppendStartupElement $xml
-		$xml.Save($configfile)	
+		$xml.Save($configfile.FullName)	
 		$startup = $xml.get_DocumentElement().startup
 	}
 	

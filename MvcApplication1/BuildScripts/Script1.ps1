@@ -1,15 +1,11 @@
-﻿#Author: ulrik myrvold
-#Date: 10/4/2011 10:53:03 AM
-#Script: Script1
-
-. .\RunUnitTests.ps1
-. .\RunJSTests.ps1
-. .\CreatePackage.ps1
+﻿. .\RunUnitTests.ps1
+#. .\RunJSTests.ps1
+#. .\CreatePackage.ps1
 
 $MsBuild = $env:systemroot + "\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
-$SlnFilePath = "E:\PoC\JSTestDriver\VS\MvcApplication1\MvcApplication1.sln"
+$SlnFilePath = "..\Pipe.sln"
 $Configuration = "Debug"
-$BuildLog ="E:\PoC\JSTestDriver\VS\MvcApplication1\build.log"
+$BuildLog ="..\build.log"
 
 
 $BuildArgs = @{
@@ -45,10 +41,9 @@ if($Build.ExitCode.Equals(1)){
 	Error "Build failed" $BuildLog
 }
 
-Write-Host "running unit tests"
 RunUnitTests
-Write-Host "running JS tests"
-RunJStests
+#Write-Host "running JS tests"
+#RunJStests
 Write-Host "creating NuGetPackage"
 createPackage
 Write-Host "pushing package"

@@ -1,0 +1,7 @@
+﻿<configuration>
+  <connectionStrings>
+    <add name="OtherServices"
+         connectionString="data source=.\SQLEXPRESS;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|aspnetdb.mdf;User Instance=true"
+         providerName="System.Data.SqlClient" />
+  </connectionStrings>
+</configuration>
