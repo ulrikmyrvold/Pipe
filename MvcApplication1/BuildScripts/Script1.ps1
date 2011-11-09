@@ -28,13 +28,14 @@ function Error($message, $value){
 	 		Write-Host $_ -foregroundcolor black
 		}
 	}
-	exit
+	exit -1
 }
 
 
 # Start the build
 cls
 Write-Host "starting build"
+
 
 $Build = Start-Process @BuildArgs
 if($Build.ExitCode.Equals(1)){
