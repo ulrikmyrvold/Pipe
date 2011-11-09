@@ -1,12 +1,13 @@
 ﻿$MsBuild = $env:systemroot + "\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
 $ProjectFilePath = "..\Pipe.Web\Pipe.Web.csproj"
 $Configuration = "Debug"
-$BuildLog ="..\build.log"
+$BuildLog ="..\build_webDeployPackage.log"
+$webdeployPackageFile = "..\WebDeployPackages\Pipe.Web.zip"
 
 
 $BuildArgs = @{
  FilePath = $MsBuild
- ArgumentList = $ProjectFilePath, "/t:package", ("/p:Configuration=" + $Configuration), "/v:minimal"
+ ArgumentList = $ProjectFilePath, "/t:package", ("/p:Configuration=" + $Configuration+ ";PackageLocation=" + $webdeployPackageFile), "/v:minimal"
  RedirectStandardOutput = $BuildLog
  Wait = $true
  PassThru = $true
@@ -19,8 +20,8 @@ if($Build.ExitCode.Equals(1)){
 	exit -1
 }
 
-$zipFile = Get-Item "..\Pipe.Web\obj\debug\package\Pipe.Web.zip"
-$cmdFile = Get-Item "..\Pipe.Web\obj\debug\package\Pipe.Web.deploy.cmd"
+$zipFile = Get-Item "..\WebDeployPackages\Pipe.Web.zip"
+$cmdFile = Get-Item "..\WebDeployPackages\Pipe.Web.deploy.cmd"
 if($zipFile -ne $null -and  $cmdFile -ne $null){
 	write "successfully created web deploy package"
 }

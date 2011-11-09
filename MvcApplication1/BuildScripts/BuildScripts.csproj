@@ -65,7 +65,7 @@
   <ItemGroup>
     <None Include="BuildTestAndCreatePackage.ps1" />
     <None Include="CheckEnvironment.ps1" />
-    <None Include="CreatePackage.ps1" />
+    <None Include="CreateAndPushNuGetPackage.ps1" />
     <None Include="CreateWebDeployPackage.ps1" />
     <None Include="DeploySite.ps1" />
     <None Include="DevEnv.input" />

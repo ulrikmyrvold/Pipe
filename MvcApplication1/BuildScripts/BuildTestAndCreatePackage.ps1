@@ -1,14 +1,10 @@
 ﻿. .\RunUnitTests.ps1
 #. .\RunJSTests.ps1
-. .\CreatePackage.ps1
 
 $MsBuild = $env:systemroot + "\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
 $SlnFilePath = "..\Pipe.sln"
 $Configuration = "Debug"
 $BuildLog ="..\build.log"
-$webProjectFilePath = "..\Pipe.Web\Pipe.Web.csproj"
-$webdeployPackageFile = "..\Nuget\Content\Pipe.web.zip"
-
 
 $BuildArgs = @{
  FilePath = $MsBuild
@@ -18,13 +14,6 @@ $BuildArgs = @{
  PassThru = $true
  }
 
-$CreateWebDeployPackageArgs = @{
- FilePath = $MsBuild
- ArgumentList = $webProjectFilePath, "/t:package", ("/p:Configuration=" + $Configuration+ ";PackageLocation=" + $webdeployPackageFile), "/v:minimal"
- RedirectStandardOutput = $BuildLog
- Wait = $true
- PassThru = $true
- }
 
 function Error($message, $value){
 	
