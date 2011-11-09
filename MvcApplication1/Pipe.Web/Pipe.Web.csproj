@@ -127,9 +127,6 @@
     <Folder Include="Scripts\Test\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MvcApplication1.nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Web.config.transform">
       <SubType>Designer</SubType>
     </None>

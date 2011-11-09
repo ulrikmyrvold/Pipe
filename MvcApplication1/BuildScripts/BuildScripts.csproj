@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BuildTestAndCreatePackage.ps1" />
     <None Include="CheckEnvironment.ps1" />
     <None Include="CreatePackage.ps1" />
     <None Include="DeploySite.ps1" />
@@ -71,9 +72,11 @@
     <None Include="ReadConfiguration.ps1" />
     <None Include="RunJavascripttests.ps1" />
     <None Include="RunUnitTests.ps1" />
-    <None Include="Script1.ps1" />
     <None Include="RunJSTests.ps1" />
+    <None Include="TestRunner\nunit-console.exe.config" />
     <None Include="tmp.ps1" />
+    <None Include="Tools\DeploySite.ps1" />
+    <None Include="Tools\install.ps1" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -99,6 +102,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="transforms\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestRunner\lib\log4net.dll" />
+    <Content Include="TestRunner\lib\nunit-console-runner.dll" />
+    <Content Include="TestRunner\lib\nunit.core.dll" />
+    <Content Include="TestRunner\lib\nunit.core.interfaces.dll" />
+    <Content Include="TestRunner\lib\nunit.util.dll" />
+    <Content Include="TestRunner\nunit-console.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

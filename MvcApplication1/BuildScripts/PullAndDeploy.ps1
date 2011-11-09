@@ -4,8 +4,8 @@
 
 #Pulls package from NuGet server and runs contained deploymentscript
 
-$applicationName = "MvcApplication1"
-$workingDirectory = "E:\PoC\NuGet\MvcApplication1Dest"
+$applicationName = "Pipe.Web"
+$workingDirectory = "D:\Temp\PipeDeploy"
 $NugetPullUrl = "http://localhost:105/nuget"
 
 $NugetArgs = @{

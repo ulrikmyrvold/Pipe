@@ -5,11 +5,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipe.Web", "Pipe.Web\Pipe.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{3481737B-892E-4E4F-8B98-F25A4DA56F3B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10BC0778-041B-476E-988A-2AB0D70D87E1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildScripts", "BuildScripts\BuildScripts.csproj", "{9A497108-4C89-427C-8E5A-F21FBCD78C88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTest", "WebTest\WebTest.csproj", "{AF3AFD32-13A8-41FA-9D62-39359AE9E4D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{872D8BE2-FD48-406E-A01F-B11096529293}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\Pipe.Web.nuspec = NuGet\Pipe.Web.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
