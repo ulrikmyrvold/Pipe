@@ -38,7 +38,7 @@ function Error($message, $value){
 	 		Write-Host $_ -foregroundcolor black
 		}
 	}
-	exit
+	exit -1
 }
 
 function createWebDeployPackage(){
@@ -52,17 +52,18 @@ function createWebDeployPackage(){
 cls
 Write-Host "starting build"
 
+
 $Build = Start-Process @BuildArgs
 if($Build.ExitCode.Equals(1)){
 	Error "Build failed" $BuildLog
 }
 
 RunUnitTests
+.\CreateWebDeployPackage
+
 #Write-Host "running JS tests"
 #RunJStests
-Write-Host "creating WebDeploy-package"
-createWebDeployPackage
-Write-Host "creating NuGetPackage"
-createPackage
-Write-Host "pushing package"
-pushPackage
+#Write-Host "creating NuGetPackage"
+#createPackage
+#Write-Host "pushing package"
+#pushPackage

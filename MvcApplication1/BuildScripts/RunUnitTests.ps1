@@ -8,12 +8,15 @@
 		FilePath = ".\TestRunner\nunit-console.exe"
 		WorkingDirectory = $WorkingDirectory
 	 	ArgumentList = "Tests.dll", "/xml " + $TestrunOutput
-		RedirectStandardOutput = $TestrunLog 
-		#PassThru = $true
+		#RedirectStandardOutput = $TestrunLog 
+		PassThru = $true
 		Wait = $true
 	}	
-	Start-Process @TestRunArgs
-	Get-Content $TestrunLog
+	$testrun = Start-Process @TestRunArgs
+	if ($testrun.ExitCode.Equals(1)){
+		exit -1
+	}
+		
 }
 
 

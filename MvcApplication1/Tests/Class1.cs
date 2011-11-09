@@ -20,7 +20,7 @@ namespace Tests
         [Test]
         public void FailIt()
         {
-            Assert.That(1, Is.EqualTo(2), "One is not equal to two, you idiot!");
+            Assert.That(2, Is.EqualTo(2), "One is not equal to two, you idiot!");
         }
     }
 
