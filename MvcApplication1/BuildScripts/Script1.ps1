@@ -43,9 +43,11 @@ if($Build.ExitCode.Equals(1)){
 }
 
 RunUnitTests
+.\CreateWebDeployPackage
+.\ZipDeploymentArtifacts
 #Write-Host "running JS tests"
 #RunJStests
-Write-Host "creating NuGetPackage"
-createPackage
-Write-Host "pushing package"
-pushPackage
+#Write-Host "creating NuGetPackage"
+#createPackage
+#Write-Host "pushing package"
+#pushPackage

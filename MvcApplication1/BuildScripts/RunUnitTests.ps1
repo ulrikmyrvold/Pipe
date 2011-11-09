@@ -13,7 +13,7 @@
 		Wait = $true
 	}	
 	$testrun = Start-Process @TestRunArgs
-	if ($testrun.ExitCodeEquals(1)){
+	if ($testrun.ExitCode.Equals(1)){
 		exit -1
 	}
 		
@@ -65,4 +65,3 @@ function RunUnitTests(){
 	Write-Host "running unit tests"
 	RunTests
 }
-RunUnitTests
