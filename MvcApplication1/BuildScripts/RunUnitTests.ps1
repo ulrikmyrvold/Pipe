@@ -15,7 +15,7 @@
 	}	
 	$testrun = Start-Process @TestRunArgs
 	Write-Host (Get-Content -Path $TestrunLog)
-	if ($testrun.ExitCode.Equals(1)){
+	if (($testrun -eq $null) -or ($testrun.ExitCode.Equals(1))){
 		exit -1
 	}
 		

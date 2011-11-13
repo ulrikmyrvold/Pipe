@@ -46,7 +46,7 @@ Write-Host "starting build"
 $Build = Start-Process @BuildArgs
 Write-Host (Get-Content -Path $BuildLog)
 
-if($Build.ExitCode.Equals(1)){
+if (($Build -eq $null) -or ($Build.ExitCode.Equals(1))){
 	Error "Build failed" $BuildLog
 }
 

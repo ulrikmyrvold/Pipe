@@ -17,8 +17,8 @@ $BuildArgs = @{
  write "building web deploy package"
 $Build = Start-Process @BuildArgs
 Write-Host (Get-Content -Path $BuildLog)
-if($Build.ExitCode.Equals(1)){
-	write "unable to build web deploy package"
+if (($Build -eq $null) -or ($Build.ExitCode.Equals(1))){
+	Write-Host "unable to build web deploy package"
 	exit -1
 }
 

@@ -5,7 +5,7 @@
 Function CheckForErrors() {
   if (!$?) {
 	Write-Host "FAILED! STOPPING SCRIPT EXECUTION" -foregroundcolor red
-    exit
+    exit -1
   }
 }
 
