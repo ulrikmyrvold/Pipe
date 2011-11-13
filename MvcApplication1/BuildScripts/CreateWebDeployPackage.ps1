@@ -9,12 +9,14 @@ $BuildArgs = @{
  FilePath = $MsBuild
  ArgumentList = $ProjectFilePath, "/t:package", ("/p:Configuration=" + $Configuration+ ";PackageLocation=" + $webdeployPackageFile), "/v:minimal"
  RedirectStandardOutput = $BuildLog
+ NoNewWindow = $true
  Wait = $true
  PassThru = $true
  }
  
  write "building web deploy package"
 $Build = Start-Process @BuildArgs
+Write-Host (Get-Content -Path $BuildLog)
 if($Build.ExitCode.Equals(1)){
 	write "unable to build web deploy package"
 	exit -1

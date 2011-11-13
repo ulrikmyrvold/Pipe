@@ -69,7 +69,7 @@
     <None Include="CreateWebDeployPackage.ps1" />
     <None Include="DeploySite.ps1" />
     <None Include="DevEnv.input" />
-    <None Include="installForWebTest.ps1" />
+    <None Include="installAndRunWebTests.ps1" />
     <None Include="PullAndDeploy.ps1" />
     <None Include="ReadConfiguration.ps1" />
     <None Include="RunJavascripttests.ps1" />
