@@ -1,6 +1,6 @@
 ﻿function RunTests()
 {
-	$WorkingDirectory = "..\Tests\bin\Debug"
+	$WorkingDirectory = "..\Tests\bin\Release"
 	$TestrunOutput = "..\UnitTestRun.xml"
 	$TestrunLog = "..\UnitTestRun.log"
 	
