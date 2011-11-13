@@ -1,5 +1,5 @@
 ﻿. .\RunUnitTests.ps1
-#. .\RunJSTests.ps1
+. .\CreateDeployPackage
 
 $MsBuild = $env:systemroot + "\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
 $SlnFilePath = "..\Pipe.sln"
@@ -31,14 +31,6 @@ function Error($message, $value){
 	exit -1
 }
 
-function createWebDeployPackage(){
-	$CreateWebDeployPackage = Start-Process @CreateWebDeployPackageArgs
-	if($CreateWebDeployPackage.ExitCode.Equals(1)){
-		Error "Creating web deploy package failed" $BuildLog
-	}
- }
-
-# Start the build
 cls
 Write-Host "starting build"
 
@@ -51,4 +43,4 @@ if (($Build -eq $null) -or ($Build.ExitCode.Equals(1))){
 }
 
 RunUnitTests
-.\CreateWebDeployPackage
+CreateDeployPackage

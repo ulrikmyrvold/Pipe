@@ -1,5 +1,5 @@
 ﻿
-. .\DeploySite.ps1
+. ..\Tools\DeploySite.ps1
 . .\RunWebTests.ps1
 
 Function CheckForErrors() {
@@ -24,7 +24,7 @@ if($webAdminSnapin -eq $null){
 }
 
 Write-Host "Deploying web application to test system"
-$deployPackagePath = Get-Item -Path '../WebDeployPackages/Pipe.Web.zip'
+$deployPackagePath = Get-Item -Path '../Content/Pipe.Web.zip'
 DeployWebApplicationSite 'PipeWebTest' 'd:\Temp\PipeWebTest' '*' '80' 'pipeWebTest' 'pipeWebTest' $null $deployPackagePath "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
 
 RunWebtTests
