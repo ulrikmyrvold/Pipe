@@ -20,7 +20,6 @@ namespace WebTest
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Login")]
-    [NUnit.Framework.CategoryAttribute("changes_database")]
     public partial class LoginFeature
     {
         
@@ -34,8 +33,7 @@ namespace WebTest
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Login", "In order to all features of the applicattion\r\nAs a user\r\nI want to login to the a" +
-                    "pplication", ProgrammingLanguage.CSharp, new string[] {
-                        "changes_database"});
+                    "pplication", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -72,19 +70,19 @@ namespace WebTest
         public virtual void CreateNewAccount()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create new account", ((string[])(null)));
-#line 8
+#line 7
 this.ScenarioSetup(scenarioInfo);
-#line 9
+#line 8
  testRunner.Given("I have navigated to the account registration page");
-#line 10
+#line 9
  testRunner.Then("I should be able to enter my user name");
-#line 11
+#line 10
  testRunner.And("I should be able to enter my email address");
-#line 12
+#line 11
  testRunner.And("I should be able to enter my password");
-#line 13
+#line 12
  testRunner.And("I should be able to confirm my passowrd");
-#line 14
+#line 13
  testRunner.And("i should be able to click the register button");
 #line hidden
             this.ScenarioCleanup();

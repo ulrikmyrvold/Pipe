@@ -1,5 +1,4 @@
-﻿@changes_database
-Feature: Login
+﻿Feature: Login
 	In order to all features of the applicattion
 	As a user
 	I want to login to the application
