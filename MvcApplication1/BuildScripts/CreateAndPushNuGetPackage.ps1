@@ -1,11 +1,11 @@
-﻿$WorkingDirectory = "..\NuGet\"
+﻿$WorkingDirectory = ".\NuGet\"
 $ToolsDirectory = $workingDirectory + "\Tools"
 $ContentDirectory = $workingDirectory + "\Content"
 $NugetPushUrl = "http://localhost:105/"
 $NugetApiKey = "d9ba4dfa-1b29-4509-9c6c-4d78af403e53"
 
 $NugetArgs = @{
-	FilePath = "NuGet.exe"
+	FilePath = ".\bin\NuGet.exe"
 	WorkingDirectory = $WorkingDirectory
 	Wait = $true
 	PassThru = $true
@@ -21,14 +21,14 @@ function CopyPowerShellScripts{
 	if(Test-Path $ToolsDirectory){
 		Remove-Item -Path $ToolsDirectory -Recurse
 	}
-	Copy-Item -Path "..\Tools" -Destination $ToolsDirectory -Recurse
+	Copy-Item -Path ".\Tools" -Destination $ToolsDirectory -Recurse
 }
 
 function CopyContentItems{
 	if(Test-Path $ContentDirectory){
 		Remove-Item -Path $ContentDirectory -Recurse
 	}
-	Copy-Item -Path "..\Content" -Destination $ContentDirectory -Recurse
+	Copy-Item -Path ".\Content" -Destination $ContentDirectory -Recurse
 }
 
 function createPackage($versionNumber){
@@ -36,7 +36,7 @@ function createPackage($versionNumber){
 	CleanDirectory
 	CopyPowerShellScripts
 	CopyContentItems
-	$NugetArgs.ArgumentList = "pack", "-Exclude " + "CreateAndPushNuGetPackage.ps1", "-Version " + $versionNumber
+	$NugetArgs.ArgumentList = "pack", "-Exclude " + "CreateAndPushNuGetPackage.ps1", "-Exclude " + "bin\Nuget.exe","-Version " + $versionNumber
 	$nuget = Start-Process @NugetArgs
 	if (($nuget -eq $null) -or ($nuget.ExitCode.Equals(1))){
 		exit -1

@@ -5,7 +5,7 @@ $Configuration = "Release"
 $BuildWebDeployPackageLog ="..\build_webDeployPackage.log"
 $webdeployPackagePath = $deployPackagePath + "\Content\"
 $webdeployPackageFile = $webdeployPackagePath + "Pipe.Web.zip"
-$webtestDeployPackagePath = $deployPackagePath + "WebTest\"
+$webtestDeployPackagePath = $deployPackagePath + "Webest\"
 
 
 $BuildWebDeployPackageArgs = @{
@@ -55,7 +55,7 @@ function AddInstallScriptsToPackage(){
 function AddWebTestItemsToPackage(){
 	Copy-Item -Path ".\TestRunner" -Destination $webtestDeployPackagePath"TestRunner" -Recurse
 	Copy-Item -Path ("..\WebTest\bin\" + $Configuration) -Destination $webtestDeployPackagePath"bin" -Recurse
-	Copy-Item -Path "installRunWebTestsCreateNuGetAndPushToGallery.ps1" -Destination $webtestDeployPackagePath
+	
 	Copy-Item -Path "RunWebTests.ps1" -Destination $webtestDeployPackagePath
 }
 
@@ -65,4 +65,5 @@ function CreateDeployPackage(){
 	AddItemsForNuGetPackagingToPackage
 	AddInstallScriptsToPackage
 	AddWebTestItemsToPackage
+	Copy-Item -Path "installRunWebTestsCreateNuGetAndPushToGallery.ps1" -Destination $deployPackagePath
 }

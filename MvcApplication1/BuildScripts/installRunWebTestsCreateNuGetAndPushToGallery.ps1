@@ -1,7 +1,7 @@
 ﻿
-. ..\Tools\DeploySite.ps1
-. .\RunWebTests.ps1
-. ..\Nuget\CreateAndPushNuGetPackage.ps1
+. .\Tools\DeploySite.ps1
+. .\Webtest\RunWebTests.ps1
+. .\Nuget\CreateAndPushNuGetPackage.ps1
 
 Function CheckForErrors() {
   if (!$?) {
