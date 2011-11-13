@@ -9,6 +9,7 @@ $NugetArgs = @{
 	WorkingDirectory = $WorkingDirectory
 	Wait = $true
 	PassThru = $true
+	NoNewWindow = $true
 }
 
 

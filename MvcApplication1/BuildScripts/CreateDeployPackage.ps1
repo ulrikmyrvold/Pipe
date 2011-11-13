@@ -12,7 +12,7 @@ $BuildWebDeployPackageArgs = @{
  FilePath = $MsBuild
  ArgumentList = $ProjectFilePath, "/t:package", ("/p:Configuration=" + $Configuration+ ";PackageLocation=" + $webdeployPackageFile), "/v:minimal"
  RedirectStandardOutput = $BuildWebDeployPackageLog
- #NoNewWindow = $true
+ NoNewWindow = $true
  Wait = $true
  PassThru = $true
  }
