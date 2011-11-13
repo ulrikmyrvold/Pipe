@@ -1,11 +1,11 @@
 ﻿function RunTests()
 {
-	$WorkingDirectory = ".\bin\"
+	$WorkingDirectory = ".\Webtest\bin\"
 	$TestrunOutput = "..\WebTestRun.xml"
-	$TestrunLog = ".\WebTestRun.log"
+	$TestrunLog = ".\Webtest\WebTestRun.log"
 	
 	$TestRunArgs = @{
-		FilePath = ".\TestRunner\nunit-console.exe"
+		FilePath = ".\Webtest\TestRunner\nunit-console.exe"
 		WorkingDirectory = $WorkingDirectory
 	 	ArgumentList = "WebTest.dll", "/xml " + $TestrunOutput
 		NoNewWindow = $true 
@@ -38,7 +38,7 @@ function AppendStartupElement($xmlDoc){
 }
 
 function TweakNunitConfig(){
-	$configfile = Get-Item -Path ".\TestRunner\nunit-console.exe.config"
+	$configfile = Get-Item -Path ".\Webtest\TestRunner\nunit-console.exe.config"
 
 	[xml]$xml = Get-Content $configfile.FullName
 	$startup = $xml.get_DocumentElement().startup

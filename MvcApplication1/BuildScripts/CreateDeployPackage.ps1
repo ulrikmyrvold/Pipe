@@ -5,7 +5,7 @@ $Configuration = "Release"
 $BuildWebDeployPackageLog ="..\build_webDeployPackage.log"
 $webdeployPackagePath = $deployPackagePath + "\Content\"
 $webdeployPackageFile = $webdeployPackagePath + "Pipe.Web.zip"
-$webtestDeployPackagePath = $deployPackagePath + "Webest\"
+$webtestDeployPackagePath = $deployPackagePath + "Webtest\"
 
 
 $BuildWebDeployPackageArgs = @{

@@ -5,7 +5,7 @@ $NugetPushUrl = "http://localhost:105/"
 $NugetApiKey = "d9ba4dfa-1b29-4509-9c6c-4d78af403e53"
 
 $NugetArgs = @{
-	FilePath = ".\bin\NuGet.exe"
+	FilePath = $WorkingDirectory + ".\bin\NuGet.exe"
 	WorkingDirectory = $WorkingDirectory
 	Wait = $true
 	PassThru = $true
