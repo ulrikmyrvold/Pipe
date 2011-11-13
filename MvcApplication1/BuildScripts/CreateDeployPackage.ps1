@@ -55,7 +55,7 @@ function AddInstallScriptsToPackage(){
 function AddWebTestItemsToPackage(){
 	Copy-Item -Path ".\TestRunner" -Destination $webtestDeployPackagePath"TestRunner" -Recurse
 	Copy-Item -Path ("..\WebTest\bin\" + $Configuration) -Destination $webtestDeployPackagePath"bin" -Recurse
-	Copy-Item -Path "installAndRunWebTests.ps1" -Destination $webtestDeployPackagePath
+	Copy-Item -Path "installRunWebTestsCreateNuGetAndPushToGallery.ps1" -Destination $webtestDeployPackagePath
 	Copy-Item -Path "RunWebTests.ps1" -Destination $webtestDeployPackagePath
 }
 

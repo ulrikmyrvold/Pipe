@@ -1,59 +1,58 @@
-﻿#Author: ulrik myrvold
-#Date: 10/7/2011 11:13:10 AM
-#Script: CreatePackage
-
-$workingDirectory = "..\Nuget"
+﻿$WorkingDirectory = "..\NuGet\"
+$ToolsDirectory = $workingDirectory + "\Tools"
+$ContentDirectory = $workingDirectory + "\Content"
 $NugetPushUrl = "http://localhost:105/"
 $NugetApiKey = "d9ba4dfa-1b29-4509-9c6c-4d78af403e53"
 
-$webdeployPackageFile = "..\WebDeployPackages\Pipe.Web.zip"
-
 $NugetArgs = @{
 	FilePath = "NuGet.exe"
-	WorkingDirectory = $workingDirectory
+	WorkingDirectory = $WorkingDirectory
 	Wait = $true
 	PassThru = $true
 }
 
 
 function CleanDirectory(){
-	$nupkgfiles = $workingDirectory + "\*.nupkg"
-	Remove-Item $nupkgfiles
+	Remove-Item ($WorkingDirectory + "*.nupkg")
 }
 
 function CopyPowerShellScripts{
-	if(Test-Path $workingDirectory"/Tools"){
-		Remove-Item -Path $workingDirectory"/Tools" -Recurse
+	if(Test-Path $ToolsDirectory){
+		Remove-Item -Path $ToolsDirectory -Recurse
 	}
-	Copy-Item -Path ".\Tools" -Destination $workingDirectory -Recurse
+	Copy-Item -Path "..\Tools" -Destination $ToolsDirectory -Recurse
 }
 
-function CopyWebDeployPackage{
-	if(Test-Path $workingDirectory"/Content"){
-		Remove-Item -Path $workingDirectory"/Content" -Recurse
+function CopyContentItems{
+	if(Test-Path $ContentDirectory){
+		Remove-Item -Path $ContentDirectory -Recurse
 	}
-	New-Item -Path $workingDirectory"/Content" -ItemType directory
-	Copy-Item -Path $webdeployPackageFile -Destination $workingDirectory"/Content" -Recurse
+	Copy-Item -Path "..\Content" -Destination $ContentDirectory -Recurse
 }
 
-function createPackage(){
+function createPackage($versionNumber){
+	Write-Host "Creating NuGet-package"
 	CleanDirectory
 	CopyPowerShellScripts
-	CopyWebDeployPackage
-	$NugetArgs.ArgumentList = "pack"
+	CopyContentItems
+	$NugetArgs.ArgumentList = "pack", "-Exclude " + "CreateAndPushNuGetPackage.ps1", "-Version " + $versionNumber
 	$nuget = Start-Process @NugetArgs
-	Write-Host $nuget.ExitCode
+	if (($nuget -eq $null) -or ($nuget.ExitCode.Equals(1))){
+		exit -1
+	}
  }
  
 function pushPackage(){
-	$filename = Get-Item $workingDirectory"\*.nupkg"
+	Write-Host "Pushing NuGet-package to gallery"
+	$filename = Get-Item ($WorkingDirectory + "*.nupkg")
 	$NugetArgs.ArgumentList = "push", $filename.Name, "-s " + $NugetPushUrl + $NugetApiKey
 	$nuget = Start-Process @NugetArgs
-	Write-Host $nuget.ExitCode 
+	if (($nuget -eq $null) -or ($nuget.ExitCode.Equals(1))){
+		exit -1
+	} 
 } 
  
-Write-Host "Creating nuget-package"
-createPackage
-
-Write-Host "Pushing nuget-package"
-pushPackage 
+function CreatePushNuGetPackageAnPushToGallery($versionNumber) {
+	createPackage $versionNumber
+	pushPackage 
+}
