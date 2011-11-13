@@ -2,17 +2,19 @@
 {
 	$WorkingDirectory = "..\Tests\bin\Debug"
 	$TestrunOutput = "..\UnitTestRun.xml"
-	$TestrunLog = "..\..\UnitTestRun.log"
+	$TestrunLog = "..\UnitTestRun.log"
 	
 	$TestRunArgs = @{
 		FilePath = ".\TestRunner\nunit-console.exe"
 		WorkingDirectory = $WorkingDirectory
 	 	ArgumentList = "Tests.dll", "/xml " + $TestrunOutput
-		#RedirectStandardOutput = $TestrunLog 
+		RedirectStandardOutput = $TestrunLog 
+		NoNewWindow = $true
 		PassThru = $true
 		Wait = $true
 	}	
 	$testrun = Start-Process @TestRunArgs
+	Write-Host (Get-Content -Path $TestrunLog)
 	if ($testrun.ExitCode.Equals(1)){
 		exit -1
 	}

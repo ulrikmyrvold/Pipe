@@ -2,8 +2,6 @@
 #Date: 10/7/2011 11:13:10 AM
 #Script: CreatePackage
 
-#nuget pack MvcApplication1.csproj
-
 $workingDirectory = "..\Nuget"
 $NugetPushUrl = "http://localhost:105/"
 $NugetApiKey = "d9ba4dfa-1b29-4509-9c6c-4d78af403e53"
