@@ -1,7 +1,7 @@
 ﻿
 . .\Tools\DeploySite.ps1
-. .\Webtest\RunWebTests.ps1
-. .\Nuget\CreateAndPushNuGetPackage.ps1
+$scriptFileForRunningWebTests = '.\Webtest\RunWebTests.ps1'
+$scriptFileForCreatingAndPushingNuGetPackage =  '.\Nuget\CreateAndPushNuGetPackage.ps1'
 
 Function CheckForErrors() {
   if (!$?) {
@@ -31,10 +31,10 @@ if($args.Count -ne 1){
 }
 $versionNumber = $args[0]
 
+Write-Host
 Write-Host "Deploying web application to test system"
 $deployPackagePath = Get-Item -Path '.\Content\Pipe.Web.zip'
 DeployWebApplicationSite 'PipeWebTest' 'd:\Temp\PipeWebTest' '*' '80' 'pipeWebTest' 'pipeWebTest' $null $deployPackagePath "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
 
-RunWebtTests
-
-CreatePushNuGetPackageAnPushToGallery $versionNumber
+.$scriptFileForRunningWebTests
+.$scriptFileForCreatingAndPushingNuGetPackage $versionNumber

@@ -18,7 +18,6 @@
 	if (($testrun -eq $null) -or ($testrun.ExitCode.Equals(1))){
 		exit -1
 	}
-		
 }
 
 
@@ -58,8 +57,7 @@ function TweakNunitConfig(){
 	}
 }
 
-function RunWebtTests(){
-	TweakNunitConfig
-	Write-Host "running web tests"
-	RunTests
-}
+Write-Host
+Write-Host "Running web tests"
+TweakNunitConfig
+RunTests

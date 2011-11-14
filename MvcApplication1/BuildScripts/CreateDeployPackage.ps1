@@ -24,7 +24,6 @@ function CleanDirectory(){
 } 
  
 function CreateWebDeployPackage(){
-	Write-Host "building web deploy package"
 	$Build = Start-Process @BuildWebDeployPackageArgs
 	Write-Host (Get-Content -Path $BuildWebDeployPackageLog)
 	if (($Build -eq $null) -or ($Build.ExitCode.Equals(1))){
@@ -59,11 +58,11 @@ function AddWebTestItemsToPackage(){
 	Copy-Item -Path "RunWebTests.ps1" -Destination $webtestDeployPackagePath
 }
 
-function CreateDeployPackage(){
-	CleanDirectory
-	CreateWebDeployPackage
-	AddItemsForNuGetPackagingToPackage
-	AddInstallScriptsToPackage
-	AddWebTestItemsToPackage
-	Copy-Item -Path "installRunWebTestsCreateNuGetAndPushToGallery.ps1" -Destination $deployPackagePath
-}
+Write-Host
+Write-Host "Creating deploy package"
+CleanDirectory
+CreateWebDeployPackage
+AddItemsForNuGetPackagingToPackage
+AddInstallScriptsToPackage
+AddWebTestItemsToPackage
+Copy-Item -Path "installRunWebTestsCreateNuGetAndPushToGallery.ps1" -Destination $deployPackagePath

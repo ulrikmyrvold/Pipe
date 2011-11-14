@@ -32,6 +32,7 @@ function CopyContentItems{
 }
 
 function createPackage($versionNumber){
+	Write-Host
 	Write-Host "Creating NuGet-package"
 	CleanDirectory
 	CopyPowerShellScripts
@@ -44,6 +45,7 @@ function createPackage($versionNumber){
  }
  
 function pushPackage(){
+	Write-Host
 	Write-Host "Pushing NuGet-package to gallery"
 	$filename = Get-Item ($WorkingDirectory + "*.nupkg")
 	$NugetArgs.ArgumentList = "push", $filename.Name, "-s " + $NugetPushUrl + $NugetApiKey
@@ -52,8 +54,13 @@ function pushPackage(){
 		exit -1
 	} 
 } 
- 
-function CreatePushNuGetPackageAnPushToGallery($versionNumber) {
-	createPackage $versionNumber
-	pushPackage 
+
+if($args.Count -ne 1){
+	Write-Host "Running the deploy requires the following parameters:" -foregroundcolor Red
+	Write-Host "	(1) Version number for the NuGet package" -ForegroundColor Red
+	exit -1
 }
+$versionNumber = $args[0]
+ 
+createPackage $versionNumber
+pushPackage 

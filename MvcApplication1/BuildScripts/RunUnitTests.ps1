@@ -39,9 +39,6 @@ function AppendStartupElement($xmlDoc){
 
 function TweakNunitConfig(){
 	#make sure required runtime is set, otherwise nunit-agent.exe will not terminate properly
-	
-	#$configfile = "E:\PoC\JSTestDriver\VS\nunit-console.exe.copy.config"
-
 	$configfile = Get-Item -Path ".\TestRunner\nunit-console.exe.config"
 
 	[xml]$xml = Get-Content $configfile.FullName
@@ -62,8 +59,7 @@ function TweakNunitConfig(){
 	}
 }
 
-function RunUnitTests(){
-	TweakNunitConfig
-	Write-Host "running unit tests"
-	RunTests
-}
+Write-Host
+Write-Host "Running unit tests"
+TweakNunitConfig
+RunTests
