@@ -1,11 +1,14 @@
-﻿$deployPackagePath = "..\DeployPackage\"
+﻿. .\ReadConfiguration.ps1
+
 $MsBuild = $env:systemroot + "\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
-$ProjectFilePath = "..\Pipe.Web\Pipe.Web.csproj"
-$Configuration = "Release"
-$BuildWebDeployPackageLog ="..\build_webDeployPackage.log"
-$webdeployPackagePath = $deployPackagePath + "\Content\"
-$webdeployPackageFile = $webdeployPackagePath + "Pipe.Web.zip"
-$webtestDeployPackagePath = $deployPackagePath + "Webtest\"
+$deployPackagePath = ReadValueFromConfig 'DeployPackagePath'
+
+$ProjectFilePath = ReadValueFromConfig 'WebProjectFile'
+$Configuration = ReadValueFromConfig 'BuildConfiguration'
+$BuildWebDeployPackageLog = ReadValueFromConfig 'BuildWebDeployPackageLogFile'
+$webdeployPackagePath = ReadValueFromConfig 'WebDeployPackagePath'
+$webdeployPackageFile = $webdeployPackagePath + (ReadValueFromConfig 'BuildWebDeployPackageFile')
+$webtestDeployPackagePath = ReadValueFromConfig 'WebtestDeployPackagePath'
 
 
 $BuildWebDeployPackageArgs = @{
@@ -32,8 +35,7 @@ function CreateWebDeployPackage(){
 	}
 
 	$zipFile = Get-Item $webdeployPackageFile
-	$cmdFile = Get-Item $webdeployPackagePath"Pipe.Web.deploy.cmd"
-	if($zipFile -ne $null -and  $cmdFile -ne $null){
+	if($zipFile -ne $null){
 		Write-Host "successfully created web deploy package"
 	}
 	else{

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <Configuration environment="CI">
+    <SolutionFile>..\Pipe.sln</SolutionFile>
+	<BuildConfiguration>Release</BuildConfiguration>
+	<BuildLogFile>..\build.log</BuildLogFile>
+	<DotNetVersionNumber>4.0.30319</DotNetVersionNumber>
+	<NunitTestRunnerFile>.\TestRunner\nunit-console.exe</NunitTestRunnerFile>
+	<NunitTestRunnerConfigFile>.\TestRunner\nunit-console.exe.config</NunitTestRunnerConfigFile>
+	<UnittestWorkingDir>..\Tests\bin\Release</UnittestWorkingDir>
+	<UnittestOutputFile>..\UnitTestRun.xml</UnittestOutputFile>
+	<UnittestLogFile>..\UnitTestRun.log</UnittestLogFile>
+	<UnittestDll>Tests.dll</UnittestDll>
+	<DeployPackagePath>..\DeployPackage\</DeployPackagePath>
+	<WebProjectFile>..\Pipe.Web\Pipe.Web.csproj</WebProjectFile>
+	<BuildWebDeployPackageLogFile>..\build_webDeployPackage.log</BuildWebDeployPackageLogFile>
+	<WebDeployPackagePath>..\DeployPackage\Content\</WebDeployPackagePath>
+	<BuildWebDeployPackageFile>Pipe.Web.zip</BuildWebDeployPackageFile>
+	<WebtestDeployPackagePath>..\DeployPackage\Webtest\</WebtestDeployPackagePath>
+  </Configuration>
+</Root>

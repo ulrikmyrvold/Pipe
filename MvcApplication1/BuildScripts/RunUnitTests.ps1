@@ -1,13 +1,19 @@
-﻿function RunTests()
+﻿. .\ReadConfiguration.ps1
+
+$DotNetVersionNumber = ReadValueFromConfig 'DotNetVersionNumber'
+$WorkingDirectory = ReadValueFromConfig 'UnittestWorkingDir'
+$TestrunOutput = ReadValueFromConfig 'UnittestOutputFile'
+$TestrunLog = ReadValueFromConfig 'UnittestLogFile'
+$Testrunner = ReadValueFromConfig 'NunitTestRunnerFile' 
+$TestrunnerConfig = ReadValueFromConfig 'NunitTestRunnerConfigFile' 
+$UnitTestDll = ReadValueFromConfig 'UnittestDll' 
+
+function RunTests()
 {
-	$WorkingDirectory = "..\Tests\bin\Release"
-	$TestrunOutput = "..\UnitTestRun.xml"
-	$TestrunLog = "..\UnitTestRun.log"
-	
 	$TestRunArgs = @{
-		FilePath = ".\TestRunner\nunit-console.exe"
+		FilePath = $Testrunner
 		WorkingDirectory = $WorkingDirectory
-	 	ArgumentList = "Tests.dll", "/xml " + $TestrunOutput
+	 	ArgumentList = $UnitTestDll, "/xml " + $TestrunOutput
 		RedirectStandardOutput = $TestrunLog 
 		NoNewWindow = $true
 		PassThru = $true
@@ -28,7 +34,7 @@ function AppendStartupElement($xmlDoc){
 	$startup = $xmlDoc.CreateElement("startup")
 	$requiredRuntime = $xmlDoc.CreateElement("requiredRuntime")
 	$requiredRuntimeAttr = $xmlDoc.CreateAttribute("version")
-	$requiredRuntimeAttr.Value = "4.0.30318"
+	$requiredRuntimeAttr.Value = $DotNetVersionNumber
 	$requiredRuntime.Attributes.Append($requiredRuntimeAttr)
 	$startup.AppendChild($requiredRuntime)
 	
@@ -39,7 +45,7 @@ function AppendStartupElement($xmlDoc){
 
 function TweakNunitConfig(){
 	#make sure required runtime is set, otherwise nunit-agent.exe will not terminate properly
-	$configfile = Get-Item -Path ".\TestRunner\nunit-console.exe.config"
+	$configfile = Get-Item -Path $TestrunnerConfig
 
 	[xml]$xml = Get-Content $configfile.FullName
 	$startup = $xml.get_DocumentElement().startup
@@ -50,10 +56,10 @@ function TweakNunitConfig(){
 	}
 	
 	$value = $startup.requiredRuntime.GetAttribute("version")
-	if(!($value -eq "4.0.30319"))
+	if(!($value -eq $DotNetVersionNumber))
 	{
 		Write-Host "updating runtime version in configuraiton file"
-		$value = "4.0.30319"
+		$value = $DotNetVersionNumber
 		$xml.configuration.startup.requiredRuntime.version = $value		
 		$xml.Save($configfile)	
 	}
