@@ -37,4 +37,12 @@
 	<HostName>PipeWebTest</HostName>
 	<AppPoolName>PipeWebTest</AppPoolName>
   </Configuration>
+  <Configuration environment="Stage">
+	<WebApplicationSiteName>PipeStage</WebApplicationSiteName>
+	<PhysicalSitePath>d:\Temp\PipeStage</PhysicalSitePath>
+	<IpAddress>*</IpAddress>
+	<Port>80</Port>
+	<HostName>PipeStage</HostName>
+	<AppPoolName>PipeStage</AppPoolName>
+  </Configuration>
 </Root>

@@ -1,5 +1,6 @@
 ﻿
 . .\DeploySite.ps1
+. .\ReadConfiguration.ps1
 
 Function CheckForErrors() {
   if (!$?) {
@@ -8,14 +9,14 @@ Function CheckForErrors() {
   }
 }
 
-Function DoesNotExistSite($siteName){
-	$webSite = Get-Item "IIS:\sites\$siteName" -ErrorAction SilentlyContinue
-	return ($webSite -eq $null)
-}
+$environment = Read-Host "Type the environments name where the packages is installed."
 
-Function ExistsSite($siteName){
-	return !(DoesNotExistSite $siteName)
-}
+$webApplicationSiteName = ReadValueFromConfig 'WebApplicationSiteName'
+$physicalSitePath = ReadValueFromConfig 'PhysicalSitePath'
+$ipAddress = ReadValueFromConfig 'IpAddress'
+$port = ReadValueFromConfig 'Port'
+$hostName = ReadValueFromConfig 'HostName'
+$appPoolName = ReadValueFromConfig 'AppPoolName'
 
 $webAdminSnapin = Get-PSSnapin | where {$_.Name -eq 'WebAdministration'}
 if($webAdminSnapin -eq $null){
@@ -25,6 +26,6 @@ if($webAdminSnapin -eq $null){
 Push-Location
 
 Set-Location "..\Content"
-DeployWebApplicationSite 'PipeDeploy' 'd:\Temp\PipeDeploy' '*' '80' 'pipeDeploy' 'Pipe' $null 'Pipe.Web.zip' "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
+DeployWebApplicationSite $webApplicationSiteName $physicalSitePath $ipAddress $port $hostName $appPoolName $null $deployPackagePath "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
 
 Pop-Location
