@@ -1,42 +1,39 @@
-﻿
-. .\Tools\DeploySite.ps1
-$scriptFileForRunningWebTests = '.\Webtest\RunWebTests.ps1'
-$scriptFileForCreatingAndPushingNuGetPackage =  '.\Nuget\CreateAndPushNuGetPackage.ps1'
+﻿. .\Tools\DeploySite.ps1
+. .\Tools\ReadConfiguration.ps1
 
 Function CheckForErrors() {
   if (!$?) {
-	Write-Host "FAILED! STOPPING SCRIPT EXECUTION" -foregroundcolor red
-    exit -1
+	Write-Error "FAILED! STOPPING SCRIPT EXECUTION"
+    exit 1
   }
 }
 
-Function DoesNotExistSite($siteName){
-	$webSite = Get-Item "IIS:\sites\$siteName" -ErrorAction SilentlyContinue
-	return ($webSite -eq $null)
+if($args.Count -ne 2){
+	Write-Error "Running the deploy requires the following parameters:"
+	Write-Error "	(1) Environmet name"
+	Write-Error "	(2) Version number for the NuGet package"
+	exit 1
 }
+$environment = $args[0]
+$versionNumber = $args[1]
 
-Function ExistsSite($siteName){
-	return !(DoesNotExistSite $siteName)
-}
+$webApplicationSiteName = ReadValueFromConfig 'WebApplicationSiteName'
+$physicalSitePath = ReadValueFromConfig 'PhysicalSitePath'
+$ipAddress = ReadValueFromConfig 'IpAddress'
+$port = ReadValueFromConfig 'Port'
+$hostName = ReadValueFromConfig 'HostName'
+$appPoolName = ReadValueFromConfig 'AppPoolName'
 
 $webAdminSnapin = Get-PSSnapin | where {$_.Name -eq 'WebAdministration'}
 if($webAdminSnapin -eq $null){
   import-module WebAdministration
 }
 
-if($args.Count -ne 1){
-	Write-Host "Running the deploy requires the following parameters:" -foregroundcolor Red
-	Write-Host "	(1) Version number for the NuGet package" -ForegroundColor Red
-	exit -1
-}
-$versionNumber = $args[0]
-
 Write-Host
 Write-Host "Deploying web application to test system"
 $deployPackagePath = Get-Item -Path '.\Content\Pipe.Web.zip'
-DeployWebApplicationSite 'PipeWebTest' 'd:\Temp\PipeWebTest' '*' '80' 'pipeWebTest' 'pipeWebTest' $null $deployPackagePath "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
+#DeployWebApplicationSite $webApplicationSiteName $physicalSitePath $ipAddress $port $hostName $appPoolName $null $deployPackagePath "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
 
-.$scriptFileForRunningWebTests
-CheckForErrors
-.$scriptFileForCreatingAndPushingNuGetPackage $versionNumber
+.\Webtest\RunWebTests.ps1 $environment
+.\Nuget\CreateAndPushNuGetPackage.ps1 $environment $versionNumber
 CheckForErrors

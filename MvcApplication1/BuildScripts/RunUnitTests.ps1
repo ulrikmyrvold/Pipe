@@ -1,7 +1,13 @@
 ﻿. .\ReadConfiguration.ps1
 
+if($args.Count -ne 1){
+	throw "The following parameter is required: (1) Environmet name"
+}
+$environment = $args[0]
+
 $DotNetVersionNumber = ReadValueFromConfig 'DotNetVersionNumber'
-$WorkingDirectory = ReadValueFromConfig 'UnittestWorkingDir'
+$Configuration = ReadValueFromConfig 'BuildConfiguration' 
+$BinDirectory = ReadValueFromConfig 'UnittestBinDirectory'
 $TestrunOutput = ReadValueFromConfig 'UnittestOutputFile'
 $TestrunLog = ReadValueFromConfig 'UnittestLogFile'
 $Testrunner = ReadValueFromConfig 'NunitTestRunnerFile' 
@@ -12,7 +18,7 @@ function RunTests()
 {
 	$TestRunArgs = @{
 		FilePath = $Testrunner
-		WorkingDirectory = $WorkingDirectory
+		WorkingDirectory = $BinDirectory + $Configuration
 	 	ArgumentList = $UnitTestDll, "/xml " + $TestrunOutput
 		RedirectStandardOutput = $TestrunLog 
 		NoNewWindow = $true
@@ -21,10 +27,9 @@ function RunTests()
 	}	
 	$testrun = Start-Process @TestRunArgs
 	Write-Host (Get-Content -Path $TestrunLog)
-	if (($testrun -eq $null) -or ($testrun.ExitCode.Equals(1))){
-		exit -1
+	if (($testrun -eq $null) -or ($testrun.ExitCode -ne 0)){
+		throw "Tests failed"
 	}
-		
 }
 
 

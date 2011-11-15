@@ -1,14 +1,24 @@
 ﻿. .\ReadConfiguration.ps1
 
+if($args.Count -ne 1){
+	throw "The following parameter is required: (1) Environmet name"
+}
+$environment = $args[0]
+
 $MsBuild = $env:systemroot + "\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
 $deployPackagePath = ReadValueFromConfig 'DeployPackagePath'
-
 $ProjectFilePath = ReadValueFromConfig 'WebProjectFile'
 $Configuration = ReadValueFromConfig 'BuildConfiguration'
 $BuildWebDeployPackageLog = ReadValueFromConfig 'BuildWebDeployPackageLogFile'
 $webdeployPackagePath = ReadValueFromConfig 'WebDeployPackagePath'
 $webdeployPackageFile = $webdeployPackagePath + (ReadValueFromConfig 'BuildWebDeployPackageFile')
 $webtestDeployPackagePath = ReadValueFromConfig 'WebtestDeployPackagePath'
+$NugetItemsDirectory = ReadValueFromConfig 'NugetItemsDirectory'
+$NugetPowerShellSciptsDirectory = ReadValueFromConfig 'NugetPowerShellSciptsDirectory'
+$NunitTestRunnerFile = ReadValueFromConfig 'NunitTestRunnerFile'
+$NunitTestRunnerConfigFile = ReadValueFromConfig 'NunitTestRunnerConfigFile'
+$NunitTestRunnerLibDirectory = ReadValueFromConfig 'NunitTestRunnerLibDirectory'
+$WebTestBinDirectory = ReadValueFromConfig 'WebTestBinDirectoryForDeployPackage'
 
 
 $BuildWebDeployPackageArgs = @{
@@ -30,32 +40,35 @@ function CreateWebDeployPackage(){
 	$Build = Start-Process @BuildWebDeployPackageArgs
 	Write-Host (Get-Content -Path $BuildWebDeployPackageLog)
 	if (($Build -eq $null) -or ($Build.ExitCode.Equals(1))){
-		Write-Host "unable to build web deploy package"
-		exit -1
+		throw "Unable to build web deploy package"
 	}
 
 	$zipFile = Get-Item $webdeployPackageFile
 	if($zipFile -ne $null){
-		Write-Host "successfully created web deploy package"
+		Write-Host "Successfully created web deploy package"
 	}
 	else{
-		exit -1
+		throw "Web deploy package hasn't been created"
 	}
 }
 
 function AddItemsForNuGetPackagingToPackage(){
-	Copy-Item -Path "..\NuGet" -Destination $deployPackagePath -Recurse
+	Copy-Item -Path $NugetItemsDirectory -Destination $deployPackagePath -Recurse
 	Copy-Item -Path "CreateAndPushNuGetPackage.ps1" -Destination $deployPackagePath"/Nuget"	
 }
 
 function AddInstallScriptsToPackage(){
-	Copy-Item -Path ".\Tools" -Destination $deployPackagePath -Recurse
+	Copy-Item -Path $NugetPowerShellSciptsDirectory -Destination $deployPackagePath -Recurse
 	Copy-Item -Path "DeploySite.ps1" -Destination $deployPackagePath"Tools"
+	Copy-Item -Path "ReadConfiguration.ps1" -Destination $deployPackagePath"Tools"
 }
 
 function AddWebTestItemsToPackage(){
-	Copy-Item -Path ".\TestRunner" -Destination $webtestDeployPackagePath"TestRunner" -Recurse
-	Copy-Item -Path ("..\WebTest\bin\" + $Configuration) -Destination $webtestDeployPackagePath"bin" -Recurse
+	New-Item -Name $webtestDeployPackagePath"TestRunner"  -ItemType directory | Out-Null
+	Copy-Item -Path $NunitTestRunnerFile -Destination $webtestDeployPackagePath"TestRunner" 
+	Copy-Item -Path $NunitTestRunnerConfigFile -Destination $webtestDeployPackagePath"TestRunner"
+	Copy-Item -Path $NunitTestRunnerLibDirectory -Destination $webtestDeployPackagePath"TestRunner" -Recurse
+	Copy-Item -Path ($WebTestBinDirectory + $Configuration) -Destination $webtestDeployPackagePath"bin" -Recurse
 	
 	Copy-Item -Path "RunWebTests.ps1" -Destination $webtestDeployPackagePath
 }
@@ -68,3 +81,4 @@ AddItemsForNuGetPackagingToPackage
 AddInstallScriptsToPackage
 AddWebTestItemsToPackage
 Copy-Item -Path "installRunWebTestsCreateNuGetAndPushToGallery.ps1" -Destination $deployPackagePath
+Copy-Item -Path "configuration.xml" -Destination $deployPackagePath

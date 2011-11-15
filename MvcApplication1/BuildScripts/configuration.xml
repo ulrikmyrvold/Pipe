@@ -7,7 +7,8 @@
 	<DotNetVersionNumber>4.0.30319</DotNetVersionNumber>
 	<NunitTestRunnerFile>.\TestRunner\nunit-console.exe</NunitTestRunnerFile>
 	<NunitTestRunnerConfigFile>.\TestRunner\nunit-console.exe.config</NunitTestRunnerConfigFile>
-	<UnittestWorkingDir>..\Tests\bin\Release</UnittestWorkingDir>
+	<NunitTestRunnerLibDirectory>.\TestRunner\lib</NunitTestRunnerLibDirectory>
+	<UnittestBinDirectory>..\Tests\bin\</UnittestBinDirectory>
 	<UnittestOutputFile>..\UnitTestRun.xml</UnittestOutputFile>
 	<UnittestLogFile>..\UnitTestRun.log</UnittestLogFile>
 	<UnittestDll>Tests.dll</UnittestDll>
@@ -17,5 +18,23 @@
 	<WebDeployPackagePath>..\DeployPackage\Content\</WebDeployPackagePath>
 	<BuildWebDeployPackageFile>Pipe.Web.zip</BuildWebDeployPackageFile>
 	<WebtestDeployPackagePath>..\DeployPackage\Webtest\</WebtestDeployPackagePath>
+	<NugetItemsDirectory>..\NuGet</NugetItemsDirectory>
+	<NugetPowerShellSciptsDirectory>.\Tools</NugetPowerShellSciptsDirectory>
+	<WebTestBinDirectoryForDeployPackage>..\WebTest\bin\</WebTestBinDirectoryForDeployPackage>
+	<WebTestBinDirectoryForTestRun>.\Webtest\bin\</WebTestBinDirectoryForTestRun>
+	<WebTestOutputFile>..\WebTestRun.xml</WebTestOutputFile>
+	<WebTestLogFile>.\Webtest\WebTestRun.log</WebTestLogFile>
+	<WebTestDll>WebTest.dll</WebTestDll>
+	<WebTestRunnerFile>.\Webtest\TestRunner\nunit-console.exe</WebTestRunnerFile>
+	<WebTestRunnerConfigFile>.\Webtest\TestRunner\nunit-console.exe.config</WebTestRunnerConfigFile>
+	<NugetDirectoryInDeployPackage>.\NuGet\</NugetDirectoryInDeployPackage>
+	<NugetPushUrl>http://localhost:105/</NugetPushUrl>
+	<NugetApiKey>d9ba4dfa-1b29-4509-9c6c-4d78af403e53</NugetApiKey>
+	<WebApplicationSiteName>PipeWebTest</WebApplicationSiteName>
+	<PhysicalSitePath>d:\Temp\PipeWebTest</PhysicalSitePath>
+	<IpAddress>*</IpAddress>
+	<Port>80</Port>
+	<HostName>PipeWebTest</HostName>
+	<AppPoolName>PipeWebTest</AppPoolName>
   </Configuration>
 </Root>

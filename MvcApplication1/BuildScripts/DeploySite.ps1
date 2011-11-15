@@ -1,4 +1,13 @@
-﻿Function DeployWebApplicationSite($siteName, $physicalSitePath, $ipAddress, $port, $hostName, $appPoolName, $certificateSubject, $siteDeployPackagePath, $MSDeploy){
+﻿Function DoesNotExistSite($siteName){
+	$webSite = Get-Item "IIS:\sites\$siteName" -ErrorAction SilentlyContinue
+	return ($webSite -eq $null)
+}
+
+Function ExistsSite($siteName){
+	return !(DoesNotExistSite $siteName)
+}
+
+Function DeployWebApplicationSite($siteName, $physicalSitePath, $ipAddress, $port, $hostName, $appPoolName, $certificateSubject, $siteDeployPackagePath, $MSDeploy){
 	CreateAppPool $appPoolName
 	SetAppPoolRuntimeVersion $appPoolName
 	$enabelSsl = $certificateSubject -ne $null
@@ -14,7 +23,7 @@ Function CreateAppPool($appPoolName){
 	}
 	
 	Write-Host
-	Write-Host "Creating new application pool: "$appPoolName -ForegroundColor Yellow
+	Write-Host "Creating new application pool: "$appPoolName
 	
 	New-WebAppPool -Name $appPoolName
 	CheckForErrors
@@ -22,7 +31,7 @@ Function CreateAppPool($appPoolName){
 
 Function SetAppPoolRuntimeVersion ($appPoolName){
 	Write-Host
-	Write-Host "Setting runtime version of the application pool"$appPoolName" to version 4.0" -ForegroundColor Yellow
+	Write-Host "Setting runtime version of the application pool"$appPoolName" to version 4.0"
 	
 	Set-WebConfigurationProperty -Filter "/system.applicationHost/applicationPools/add[@name='$appPoolName']" -PSPath 'IIS:\' -Name 'managedRuntimeVersion' -Value 'v4.0'
 	CheckForErrors
@@ -40,7 +49,7 @@ Function CreateSite($siteName, $physicalSitePath, $ipAddress, $enabelSsl, $port,
 	}
 
 	Write-Host
-	Write-Host "Creating new site: "$siteName -ForegroundColor Yellow
+	Write-Host "Creating new site: "$siteName
 	
 	if($enabelSsl){
 		New-Website -Name $siteName -PhysicalPath $physicalSitePath -IPAddress $ipAddress -Ssl -Port $port -HostHeader $hostName -ApplicationPool $appPoolName

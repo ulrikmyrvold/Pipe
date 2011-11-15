@@ -1,13 +1,24 @@
-﻿function RunTests()
+﻿. .\Tools\ReadConfiguration.ps1
+
+if($args.Count -ne 1){
+	throw "The following parameter is required: (1) Environmet name"
+}
+$environment = $args[0]
+
+$DotNetVersionNumber = ReadValueFromConfig 'DotNetVersionNumber'
+$WorkingDirectory = ReadValueFromConfig 'WebTestBinDirectoryForTestRun'
+$TestrunOutput = ReadValueFromConfig 'WebTestOutputFile'
+$TestrunLog = ReadValueFromConfig 'WebTestLogFile'
+$Testrunner = ReadValueFromConfig 'WebTestRunnerFile' 
+$TestrunnerConfig = ReadValueFromConfig 'WebTestRunnerConfigFile' 
+$WebTestDll = ReadValueFromConfig 'WebTestDll' 
+
+function RunTests()
 {
-	$WorkingDirectory = ".\Webtest\bin\"
-	$TestrunOutput = "..\WebTestRun.xml"
-	$TestrunLog = ".\Webtest\WebTestRun.log"
-	
 	$TestRunArgs = @{
-		FilePath = ".\Webtest\TestRunner\nunit-console.exe"
+		FilePath = $Testrunner
 		WorkingDirectory = $WorkingDirectory
-	 	ArgumentList = "WebTest.dll", "/xml " + $TestrunOutput
+	 	ArgumentList = $WebTestDll, "/xml " + $TestrunOutput
 		NoNewWindow = $true 
 		RedirectStandardOutput = $TestrunLog 
 		PassThru = $true
@@ -15,8 +26,8 @@
 	}	
 	$testrun = Start-Process @TestRunArgs
 	Write-Host (Get-Content -Path $TestrunLog)
-	if (($testrun -eq $null) -or ($testrun.ExitCode.Equals(1))){
-		exit -1
+	if (($testrun -eq $null) -or ($testrun.ExitCode -ne 0)){
+		throw "Tests failed"
 	}
 }
 
@@ -27,7 +38,7 @@ function AppendStartupElement($xmlDoc){
 	$startup = $xmlDoc.CreateElement("startup")
 	$requiredRuntime = $xmlDoc.CreateElement("requiredRuntime")
 	$requiredRuntimeAttr = $xmlDoc.CreateAttribute("version")
-	$requiredRuntimeAttr.Value = "4.0.30318"
+	$requiredRuntimeAttr.Value = $DotNetVersionNumber
 	$requiredRuntime.Attributes.Append($requiredRuntimeAttr)
 	$startup.AppendChild($requiredRuntime)
 	
@@ -37,7 +48,7 @@ function AppendStartupElement($xmlDoc){
 }
 
 function TweakNunitConfig(){
-	$configfile = Get-Item -Path ".\Webtest\TestRunner\nunit-console.exe.config"
+	$configfile = Get-Item -Path $TestrunnerConfig
 
 	[xml]$xml = Get-Content $configfile.FullName
 	$startup = $xml.get_DocumentElement().startup
@@ -48,10 +59,10 @@ function TweakNunitConfig(){
 	}
 	
 	$value = $startup.requiredRuntime.GetAttribute("version")
-	if(!($value -eq "4.0.30319"))
+	if(!($value -eq $DotNetVersionNumber))
 	{
 		Write-Host "updating runtime version in configuraiton file"
-		$value = "4.0.30319"
+		$value = $DotNetVersionNumber
 		$xml.configuration.startup.requiredRuntime.version = $value		
 		$xml.Save($configfile)	
 	}
