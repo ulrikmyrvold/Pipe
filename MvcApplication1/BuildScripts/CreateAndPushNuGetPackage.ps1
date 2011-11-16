@@ -46,7 +46,7 @@ function createPackage($versionNumber){
 	CopyContentItems
 	$NugetArgs.ArgumentList = "pack", "-Exclude " + "CreateAndPushNuGetPackage.ps1", "-Exclude " + "bin\Nuget.exe","-Version " + $versionNumber
 	$nuget = Start-Process @NugetArgs
-	if (($nuget -eq $null) -or ($nuget.ExitCode.Equals(1))){
+	if (($nuget -eq $null) -or ($nuget.ExitCode -ne 0)){
 		throw "NuGet-package has't been created" 
 	}
  }
@@ -57,7 +57,7 @@ function pushPackage(){
 	$filename = Get-Item ($WorkingDirectory + "*.nupkg")
 	$NugetArgs.ArgumentList = "push", $filename.Name, "-s " + $NugetPushUrl + $NugetApiKey
 	$nuget = Start-Process @NugetArgs
-	if (($nuget -eq $null) -or ($nuget.ExitCode.Equals(1))){
+	if (($nuget -eq $null) -or ($nuget.ExitCode -ne 0)){
 		throw "NuGet-package has't been pushed to gallery" 
 	} 
 } 

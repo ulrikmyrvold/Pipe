@@ -30,7 +30,7 @@ if($webAdminSnapin -eq $null){
 Write-Host
 Write-Host "Deploying web application to test system"
 $deployPackagePath = Get-Item -Path '.\Content\Pipe.Web.zip'
-#DeployWebApplicationSite $webApplicationSiteName $physicalSitePath $ipAddress $port $hostName $appPoolName $null $deployPackagePath "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
+DeployWebApplicationSite $webApplicationSiteName $physicalSitePath $ipAddress $port $hostName $appPoolName $null $deployPackagePath "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
 
 .\Webtest\RunWebTests.ps1 $environment
 .\Nuget\CreateAndPushNuGetPackage.ps1 $environment $versionNumber
