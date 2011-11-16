@@ -29,6 +29,7 @@ function CopyPowerShellScripts{
 		Remove-Item -Path $ToolsDirectory -Recurse
 	}
 	Copy-Item -Path ".\Tools" -Destination $ToolsDirectory -Recurse
+	Copy-Item -Path "configuration.xml" -Destination $ToolsDirectory
 }
 
 function CopyContentItems{
