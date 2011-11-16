@@ -9,7 +9,7 @@ Function CheckForErrors() {
   }
 }
 
-$environment = Read-Host "Type the environments name where the packages is installed."
+$environment = Read-Host "Type the environment's name where the package is installed."
 
 $webApplicationSiteName = ReadValueFromConfig 'WebApplicationSiteName'
 $physicalSitePath = ReadValueFromConfig 'PhysicalSitePath'
@@ -23,9 +23,5 @@ if($webAdminSnapin -eq $null){
   import-module WebAdministration
 }
 
-Push-Location
-
-Set-Location "..\Content"
+$deployPackagePath = Get-Item -Path '..\Content\Pipe.Web.zip'
 DeployWebApplicationSite $webApplicationSiteName $physicalSitePath $ipAddress $port $hostName $appPoolName $null $deployPackagePath "$env:ProgramFiles\IIS\Microsoft Web Deploy V2\msdeploy.exe"
-
-Pop-Location

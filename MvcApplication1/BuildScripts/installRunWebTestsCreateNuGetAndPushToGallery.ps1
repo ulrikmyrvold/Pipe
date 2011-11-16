@@ -9,9 +9,7 @@ Function CheckForErrors() {
 }
 
 if($args.Count -ne 2){
-	Write-Error "Running the deploy requires the following parameters:"
-	Write-Error "	(1) Environmet name"
-	Write-Error "	(2) Version number for the NuGet package"
+	Write-Error "Running the deploy requires the following parameters: (1) Environmet name, (2) Version number for the NuGet package"
 	exit 1
 }
 $environment = $args[0]
